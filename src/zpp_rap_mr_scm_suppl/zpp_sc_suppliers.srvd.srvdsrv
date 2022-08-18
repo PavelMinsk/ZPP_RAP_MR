@@ -1,0 +1,5 @@
+@EndUserText.label: 'ZPP_SC_SUPPLIERS'
+@OData.schema.name: 'ODataWebExperimental.Northwind.Model'
+define service ZPP_SC_SUPPLIERS {
+ expose ZPP_SUPPLIERS; 
+ } 

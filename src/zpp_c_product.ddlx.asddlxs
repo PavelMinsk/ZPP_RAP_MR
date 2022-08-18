@@ -1,0 +1,209 @@
+@Metadata.layer: #CORE
+
+@UI: { 
+       headerInfo: { 
+                     typeNamePlural: 'Products',
+                     typeName:       'Product',
+                    
+                     title:        { label: 'Product Descreptin',
+                                     type:   #STANDARD,          
+                                     value: 'Pgname'              },
+                     
+                     description:  { value: 'Pgid',
+                                     type:  #STANDARD },
+                     
+                     imageUrl: 'Imageurl'
+                   },
+       
+       presentationVariant: [{ 
+                               sortOrder: 
+                                          [ { by: 'Prodid',  direction: #ASC },
+                                            { by: 'Phaseid', direction: #ASC } ]
+                            }]                            
+     }
+
+@UI.lineItem: [{criticality: 'GeneralLineCriticality'}]
+
+annotate view zpp_c_product
+    with 
+{
+    @UI.facet: [
+---------------------------------------------------------------------
+//                       Header Facet Annotations       
+      { 
+        id:              'HeaderProdid',
+        purpose:         #HEADER,
+        type:            #DATAPOINT_REFERENCE,
+        targetQualifier: 'Prodid',
+        position:        10
+      },
+      {
+         id:              'Phase',
+         purpose:          #HEADER,
+         type:             #DATAPOINT_REFERENCE,
+         targetQualifier: 'Phase',
+         position:        20
+      },
+      {
+         id:              'HeaderPrice',
+         purpose:          #HEADER,
+         type:             #DATAPOINT_REFERENCE,
+         targetQualifier: 'Price',
+         position:        30
+      },
+    
+---------------------------------------------------------------------            
+//                       Object Page Tabs    
+      {
+        id:            'GeneralInformation',
+        type:          #COLLECTION,
+        label:         'General Information',
+        position:      10
+      },
+      { id:            'Market',
+        purpose:       #STANDARD,
+        type:          #LINEITEM_REFERENCE,
+        label:         'Market List Table',
+        position:       20,
+        targetElement: '_Market'
+      },
+      {
+        id:            'AdminDataCollection',
+        type:          #COLLECTION,
+        label:         'Admin Data',
+        position:      30
+      },
+
+ --------------------------------------------------------------------             
+//                       Field Groups   
+      {
+         id:                'BasicData',
+         purpose:           #STANDARD ,
+         parentId:          'GeneralInformation',
+         type:              #FIELDGROUP_REFERENCE,
+         label:             'Basic Data',
+         position:          10,
+         targetQualifier:   'BasicData'
+      },
+      {
+         id:                'Dimensions',     
+         purpose:           #STANDARD ,     
+         parentId:          'GeneralInformation',     
+         type:              #FIELDGROUP_REFERENCE,     
+         label:             'Dimensions',     
+         position:          20,     
+         targetQualifier:   'Dimensions'     
+      },     
+--------------------------------------------------------------------       
+      {     
+         id:                'AdminData',     
+         purpose:           #STANDARD ,     
+         parentId:          'AdminDataCollection',     
+         type:              #FIELDGROUP_REFERENCE,     
+         label:             'Admin Data',     
+         position:          10,     
+         targetQualifier:   'AdminData'     
+      }
+--------------------------------------------------------------------      
+    ]
+    
+    @UI.hidden: true
+    ProdUuid;
+    @UI: { 
+           selectionField: [{ position: 10 }],
+           fieldGroup:     [{ position: 20, qualifier: 'BasicData'}],
+           dataPoint:      {  title:'Product ID', qualifier: 'Prodid' },
+           lineItem:       [{ position: 10, importance: #HIGH, cssDefault.width: '7rem' }]
+         }
+    Prodid;
+    @UI: { 
+           fieldGroup:     [{ position: 10, qualifier: 'BasicData'} ],
+           selectionField: [{ position: 20 }],
+           textArrangement: #TEXT_ONLY,
+           lineItem:       [{ position: 20, importance: #HIGH, label: 'Product Group', cssDefault.width: '10rem' }]
+         }
+    Pgid;
+    @UI: { hidden: true }
+    Pgname;
+    @UI: { 
+           dataPoint:      {  title:'Phase', qualifier: 'Phase', criticality: 'PhaseCriticality' },
+           fieldGroup:     [{ position: 30, qualifier: 'BasicData' }],
+           selectionField: [{ position: 30 }],
+           textArrangement: #TEXT_ONLY,
+           
+           lineItem:       [{ position: 30, importance: #HIGH, criticality: 'PhaseCriticality', label: 'Life Cycle Phase' }]
+         }
+    Phaseid;
+    @UI: { 
+           fieldGroup:     [
+                            { position: 10, qualifier: 'Dimensions'},
+                            { position: 10, value: 'Height', type: #STANDARD, qualifier: 'AllMeasures'}
+                           ]
+           
+         }
+    Height;
+    @UI: { 
+           fieldGroup:     [
+                            { position: 20, qualifier: 'Dimensions'},
+                            { position: 20, value: 'Depth', type: #STANDARD, qualifier: 'AllMeasures'}
+                           ]
+         }
+    Depth;
+    @UI: { 
+           fieldGroup:     [
+                            { position: 30, qualifier: 'Dimensions'},
+                            { position: 20, value: 'Width', type: #STANDARD, qualifier: 'AllMeasures'}
+                           ]
+         }
+    Width;
+    @UI: { 
+           dataPoint:  {  title:'Price', qualifier: 'Price' },
+           fieldGroup: [{ position: 40, qualifier: 'BasicData' }],
+           lineItem:   [{ position: 40, importance: #HIGH, cssDefault.width: '7rem'  }]
+         }
+    Price;
+    @UI: { 
+           lineItem:       [{ position: 50, importance: #HIGH }],
+           fieldGroup:     [{ position: 50, qualifier: 'BasicData' }]
+         }
+    Taxrate;
+    @UI: { 
+           lineItem:       [{ position: 51, importance: #HIGH, label: ' ' }],
+           fieldGroup:     [{ position: 60, qualifier: 'BasicData', label: 'Tax Units' }]
+         }
+    TaxIsocode;
+    @UI: { 
+           fieldGroup:     [{ position: 10, qualifier: 'AdminData'}]
+         }
+    CreatedBy;
+    @UI: { 
+           fieldGroup:     [{ position: 20, qualifier: 'AdminData', label: 'Creation Time'}]
+         }
+    CreationTime;
+    @UI: { 
+           fieldGroup:     [{ position: 30, qualifier: 'AdminData' }]
+         }
+    ChangedBy;
+    @UI: { 
+           fieldGroup:     [{ position: 40, qualifier: 'AdminData', label: 'Change Time'}]
+         }
+    ChangeTime;
+    @UI: { 
+           fieldGroup:     [{ position: 50, qualifier: 'AdminData', label: 'Last Changed Time'}]
+         }
+    LastChangedAt;
+    @UI.hidden: true
+    Imageurl;
+    @UI.hidden: true
+    PhaseCriticality;
+    @UI.hidden: true
+    GeneralLineCriticality;
+    @UI.lineItem: [{
+                     label:          'Size',
+                     position:       60,
+                     type:           #AS_FIELDGROUP,
+                     valueQualifier: 'AllMeasures'
+                  }]
+    Measures;
+    
+}

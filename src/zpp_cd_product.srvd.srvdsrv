@@ -1,0 +1,6 @@
+@EndUserText.label: 'Service Definition'
+define service Zpp_cd_product {
+  expose zpp_c_product as Product;
+  expose zpp_c_market as Market;
+  expose zpp_c_order as OrdersOfMarket;
+}

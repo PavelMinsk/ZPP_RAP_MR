@@ -1,0 +1,7 @@
+ implementation abstract;
+ define behavior for ZPP_SUPPLIERS
+  {
+  create;
+ update;
+ delete;
+ }

@@ -1,0 +1,38 @@
+projection;
+//strict; //Comment this line in to enable strict mode. The strict mode is prerequisite to be future proof regarding syntax and to be able to release your BO.
+/********************************************************/
+/*                      Product                         */
+define behavior for zpp_c_product alias Product
+use etag
+
+{
+  use association _Market { create; }
+
+  use create;
+  use update;
+  use delete;
+}
+/********************************************************/
+/*                      Market                          */
+define behavior for zpp_c_market alias Market
+use etag
+
+{
+  use association _Product;
+  use association _Order { create; }
+
+  use update;
+  use delete;
+}
+/********************************************************/
+/*                      Order                           */
+define behavior for zpp_c_order alias Order
+use etag
+
+{
+  use association _Product;
+  use association _Market;
+
+  use update;
+  use delete;
+}

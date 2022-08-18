@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service Definition for Suppliers'
+define service Zpp_cd_suppliers {
+  expose zpp_suppliers_c as Suppliers;
+}

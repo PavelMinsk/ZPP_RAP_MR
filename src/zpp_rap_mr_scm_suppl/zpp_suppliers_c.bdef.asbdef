@@ -1,0 +1,22 @@
+unmanaged implementation in class zbp_pp_suppliers_c unique;
+
+define behavior for zpp_suppliers_c alias Suppliers
+etag master lastchangedat
+{
+
+  field( readonly )  SupplierID,
+                     CompanyName,
+                     ContactName,
+                     ContactTitle,
+                     Address,
+                     City,
+                     Region,
+                     PostalCode,
+                     Country,
+                     Phone,
+                     Fax,
+                     HomePage,
+                     lastchangedat;
+  field( mandatory ) discount_pct;
+  update;
+}

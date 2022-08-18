@@ -1,0 +1,178 @@
+@Metadata.layer: #CORE
+
+@UI: { 
+       headerInfo: { 
+                     typeName:       'Market',
+                     typeNamePlural: 'Markets',
+                     
+                     title:        { label: 'Mareket',
+                                     type:   #STANDARD,          
+                                     value: 'Mrktid'   },           
+                     
+                     description:  { value: 'Country',
+                                     type: #STANDARD   },
+
+                     imageUrl:       'Imageurl'
+                                         
+                   },
+       
+       presentationVariant: [{ 
+                               sortOrder: [ { by: 'Mrktid',  direction: #ASC } ] 
+                            }]                            
+     }
+annotate entity zpp_c_market
+    with 
+{
+   @UI.facet: [
+---------------------------------------------------------------------
+//                       Header Facet Annotations                        
+               {
+                 id:              'HeaderMrktid',
+                 purpose:          #HEADER,
+                 type:             #DATAPOINT_REFERENCE,
+                 targetQualifier: 'Mrktid',
+                 position: 10
+               },
+               {
+                 id:              'HeaderStatus',
+                 purpose:          #HEADER,
+                 type:             #DATAPOINT_REFERENCE,
+                 targetQualifier: 'Status',
+                 position: 20
+               },
+                            
+---------------------------------------------------------------------            
+//                       Object Page Tabs                                               
+               {
+                 id:                 'GeneralInformation',
+                 type:               #COLLECTION,
+                 label:              'General Information',
+                 position:           10
+               },
+               { 
+                 id:                 'Order',
+                 purpose:            #STANDARD,
+                 type:               #LINEITEM_REFERENCE,
+                 label:              'Orders',
+                 position:            20,
+                 targetElement:      '_Order'
+               },
+//              {  id:                 'ChartOrderQuantity',
+//                 targetQualifier:    'OrdersQuantity',
+//                 targetElement:      '_OrderChart',
+//                 purpose:            #STANDARD,
+//                 type:               #CHART_REFERENCE,
+//                 label:              'Orders Quantity',
+//                 position:            30
+//              },
+//              {  id:                 'ChartOrderAmounts',
+//                 purpose:            #STANDARD,
+//                 targetQualifier:    'OrdersAmounts',
+//                 targetElement:      '_OrderChart',
+//                 type:               #CHART_REFERENCE,
+//                 label:              'Orders Amounts',
+//                 position:            40
+//              },
+               {
+                 id:                 'AdminDataCollection',
+                 type:               #COLLECTION,
+                 label:              'Admin Data',
+                 position:           50
+               },
+ --------------------------------------------------------------------             
+//                      Field Groups              
+               {
+                 parentId:          'GeneralInformation',
+                 id:                'BasicData',
+                 purpose:           #STANDARD ,
+                 type:              #FIELDGROUP_REFERENCE,
+                 label:             'Basic Data',
+                 position:          10,
+                 targetQualifier:   'BasicData'
+               },
+               {
+                 parentId:          'GeneralInformation',
+                 id:                'MarketCharacteristics',
+                 purpose:           #STANDARD ,
+                 type:              #FIELDGROUP_REFERENCE,
+                 label:             'Market Characteristics',
+                 position:          20,
+                 targetQualifier:   'MarketCharacteristics'
+               },
+--------------              
+               {     
+                 parentId:          'AdminDataCollection',     
+                 id:                'AdminData',     
+                 purpose:           #STANDARD ,     
+                 type:              #FIELDGROUP_REFERENCE,     
+                 label:             'Admin Data',     
+                 position:          10,     
+                 targetQualifier:   'AdminData'     
+               } 
+             ]     
+--------------------------------------------------------------------
+   
+   
+   
+   @UI: { hidden: true }
+   ProdUuid;
+   @UI: { hidden: true }
+   MrktUuid;
+   @UI: { 
+          dataPoint:      { title: 'Market', qualifier: 'Mrktid' },
+          fieldGroup:     [{ position: 10, qualifier: 'BasicData' }],  
+          lineItem:       [{ position: 10, importance: #HIGH  }],
+          selectionField: [{ position: 10 }],
+          identification: [{ position: 10, label: 'Market' }]
+        }
+   Mrktid;
+   @UI: { 
+          fieldGroup:     [{ position: 20, qualifier: 'BasicData' }],  
+          lineItem:       [{ position: 20, importance: #HIGH  }],
+          selectionField: [{ position: 20 } ],
+          identification: [{ position: 20, label: 'Country' }]
+        }
+   Country;
+   @UI: { hidden: true }
+   Imageurl;
+   @UI: { 
+          dataPoint:      { title: 'Status', qualifier: 'Status', criticality: 'StatusCriticality' },
+          fieldGroup:     [{ position: 10, qualifier: 'MarketCharacteristics', criticality: 'StatusCriticality' }],
+          lineItem:       [{ position: 30, importance: #HIGH, criticality: 'StatusCriticality' }],
+          selectionField: [{ position: 20 }]  
+        }
+   Status;
+   @UI: { hidden: true }
+   StatusCriticality;
+   @UI: { 
+          fieldGroup:       [{ position: 20, qualifier: 'MarketCharacteristics' }],
+          lineItem:         [{ position: 40, importance: #MEDIUM }],
+          selectionField:   [{ position: 30 }],
+          valueCriticality: [{value: '3'}]   
+        }
+   Startdate;
+   @UI: { 
+          fieldGroup:       [{ position: 30, qualifier: 'MarketCharacteristics' }],
+          lineItem:         [{ position: 50, importance: #MEDIUM }],
+          selectionField:   [{ position: 35 } ],
+          valueCriticality: [{value: 'Critical'}]
+        }
+   Enddate;
+   @UI: { 
+          fieldGroup:     [{ position: 25, qualifier: 'BasicData' }],  
+          lineItem:       [{ position: 25, importance: #HIGH  }],
+          //selectionField: [ { position: 20 } ],
+          identification: [{ position: 25, label: 'Country ISO-Code' }]
+        } 
+   Isocode;
+
+   @UI.fieldGroup: [{ position: 10, qualifier: 'AdminData' }]  
+   CreatedBy;
+   @UI.fieldGroup: [{ position: 20, qualifier: 'AdminData' }]  
+   CreationTime;
+   @UI.fieldGroup: [{ position:  30, qualifier: 'AdminData' }]
+   ChangedBy;
+   @UI.fieldGroup: [{ position:  40, qualifier: 'AdminData' }] 
+   ChangeTime;
+    
+}

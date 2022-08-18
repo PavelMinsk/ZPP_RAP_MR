@@ -1,0 +1,6 @@
+ implementation abstract;
+ define behavior for ZPP_A_SUPPLIERCOMPANY
+  {
+  create;
+ update;
+ }

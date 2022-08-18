@@ -1,0 +1,117 @@
+managed implementation in class zbp_pp_i_product unique;
+//strict;
+/************************************************************/
+/*                    Product                               */
+define behavior for zpp_i_product alias Product
+persistent table zpp_d_product
+lock master
+//authorization master ( instance )
+etag master LastChangedAt
+{
+  association _Market { create; }
+
+  create;
+  update;
+  delete;
+
+  field ( numbering : managed, readonly : update ) ProdUuid;
+  field ( mandatory ) Prodid, Pgid, Price, PriceCurrency;
+  field ( readonly ) ChangedBy, ChangeTime, CreationTime, CreatedBy, LastChangedAt;
+
+  mapping for zpp_d_product
+  {
+    ProdUuid      = prod_uuid;
+    Prodid        = prodid;
+    Pgid          = pgid;
+    Phaseid       = phaseid;
+    Height        = height;
+    Depth         = depth;
+    Width         = width;
+    SizeUom       = size_uom;
+    Price         = price;
+    PriceCurrency = price_currency;
+    Taxrate       = taxrate;
+    CreatedBy     = created_by;
+    CreationTime  = creation_time;
+    ChangedBy     = changed_by;
+    ChangeTime    = change_time;
+    LastChangedAt = last_changed_at;
+  }
+
+}
+/***************************************************************/
+/*                 Market                                      */
+define behavior for zpp_i_market alias Market
+persistent table zpp_d_market
+lock dependent by _Product
+//authorization dependent by _Product
+etag master ChangeTime
+{
+  association _Product;
+  association _Order { create; }
+
+  update;
+  delete;
+
+  field ( readonly ) ProdUuid;
+  field ( numbering : managed, readonly ) MrktUuid;
+  field ( readonly ) ISOCode, ChangedBy, ChangeTime, CreationTime, CreatedBy;
+  field ( mandatory ) Mrktid;
+
+  mapping for zpp_d_market
+  {
+    ProdUuid     = prod_uuid;
+    MrktUuid     = mrkt_uuid;
+    Mrktid       = mrktid;
+    Status       = status;
+    Startdate    = startdate;
+    Enddate      = enddate;
+    Isocode      = isocode;
+    CreatedBy    = created_by;
+    CreationTime = creation_time;
+    ChangedBy    = changed_by;
+    ChangeTime   = change_time;
+  }
+
+}
+/***************************************************************/
+/*                 Order                                       */
+define behavior for zpp_i_order alias Order
+persistent table zpp_d_order
+lock dependent by _Product
+//authorization dependent by _Product
+etag master ChangeTime
+{
+  association _Product;
+  association _Market;
+
+  update;
+  delete;
+
+  field ( readonly ) ProdUuid, MrktUuid;
+  field ( numbering : managed, readonly ) OrderUuid;
+  field ( readonly ) ChangedBy, CalendarYear, Netamount, Grossamount, Amountcurr, ChangeTime, CreationTime, CreatedBy;
+  field ( mandatory ) Quantity, DeliveryDate;
+
+  mapping for zpp_d_order
+  {
+    ProdUuid         = prod_uuid;
+    MrktUuid         = mrkt_uuid;
+    OrderUuid        = order_uuid;
+    Orderid          = orderid;
+    Quantity         = quantity;
+    CalendarYear     = calendar_year;
+    DeliveryDate     = delivery_date;
+    Netamount        = netamount;
+    Grossamount      = grossamount;
+    Amountcurr       = amountcurr;
+    Busspartner      = busspartner;
+    Busspartnername  = busspartnername;
+    Busspartnergroup = busspartnergroup;
+    CreatedBy        = created_by;
+    CreationTime     = creation_time;
+    ChangedBy        = changed_by;
+    ChangeTime       = change_time;
+  }
+
+}
